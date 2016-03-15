@@ -257,8 +257,9 @@ public class Quest : MonoBehaviour {
 		manager.QuestsInProgress.Remove (this);
 
 		if (this.QuestType == ANYTIME) {
-			this.reqXP = (int) Mathf.Floor (this.reqXP * 1.19f);
+			this.reqXP = (int) Mathf.Floor (this.reqXP * 1.67f);
 			this.goldReward = (int) Mathf.Floor (this.reqXP * 1.23f);
+			this.TimeNeeded = (int) Mathf.Floor (this.reqXP * 1.23f);
 			this.manager.sindex ++;
 			this.manager.sindex = this.manager.sindex % 7;
 			this.manager.tindex -= 2;

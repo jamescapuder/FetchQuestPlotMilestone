@@ -27,7 +27,7 @@ public class Town : MonoBehaviour {
 
 	IEnumerator MaintenanceTimer(){
 		while (this.timer > 0) {
-			yield return new WaitForSeconds (2);
+			yield return new WaitForSeconds (1);
 			timer--;
 		}
 		manager.gameStart = false;
@@ -40,7 +40,14 @@ public class Town : MonoBehaviour {
 	}
 
 	IEnumerator securityLevelRoutine(){
-		manager.gdotPanel.SetActive (true);
+		//manager.gdotPanel.SetActive (true);
+		if (securityLevel <= 0) {
+			this.manager.gameStart = false;
+			this.manager.securityFail = true;
+			StopCoroutine (securityLevelRoutine ());
+			return true;
+		
+		}
 		while (true) {
 			yield return new WaitForSeconds (3);
 			if (manager.defenceOn == false) {
@@ -48,11 +55,13 @@ public class Town : MonoBehaviour {
 				this.securityLevel--;
 
 			} else if (manager.defenceOn == true && manager.ProtectionHeroesSet.Count != 0) {
-				this.securityLevel += manager.ProtectionHeroesSet.Count;
+				this.securityLevel += 2*manager.ProtectionHeroesSet.Count;
 
 			} else if (manager.defenceOn == true) {
 				// securityLevel retains constant
 				securityLevel += 0;
+				yield return new WaitForSeconds (6);
+				securityLevel--;
 			//	print (" get to d true");
 
 			}
