@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
@@ -144,6 +144,8 @@ public class GameManager : MonoBehaviour {
 	/*Initializing the various Texts*/
 	public Text UpgradeButtonActiveText=null;
 	public Text BuildOnPlotText = null;
+
+
 
     public float speed = 2f;
 
@@ -491,6 +493,9 @@ IEnumerator QuestPanelDisplay(){
 		}
 
 	}
+
+
+
   
 
 
@@ -499,22 +504,8 @@ IEnumerator QuestPanelDisplay(){
         //QuestPanel.SetActive (true);
         //instruction.text = "90 ";
 
-        if (Input.GetKey(KeyCode.RightArrow))
-        {
-            transform.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
-        }
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            transform.Translate(new Vector3(-speed * Time.deltaTime, 0, 0));
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            transform.Translate(new Vector3(0, -speed * Time.deltaTime, 0));
-        }
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            transform.Translate(new Vector3(0, speed * Time.deltaTime, 0));
-        }
+		
+		
 
 
 
@@ -748,6 +739,12 @@ IEnumerator QuestPanelDisplay(){
 		}
 
 
+	
+
+	
+
+
+
 	//***********
 	//***********
 	// This function will check if the user has enough gold to buy the townstructure that was selected through GUI
@@ -970,24 +967,24 @@ IEnumerator NotOracleForChurch(){
 
     public void buyTownStructure(int TownStructureType, Vector3 pos)
     {
-//        GameObject townStructureObject = new GameObject();
-//        TownStructure newTownStructure = townStructureObject.AddComponent<TownStructure>();
-//        newTownStructure.transform.parent = TownStructureFolder.transform;
-//        Vector3 positionOnMap = pos;
-//        //		pos.z = -1;
-//        newTownStructure.transform.position = positionOnMap;
-//
-//        BoxCollider2D townBox = townStructureObject.AddComponent<BoxCollider2D>();
-//        Rigidbody2D townRig = townStructureObject.AddComponent<Rigidbody2D>();
-//        print("made it this far");
-//        townBox.isTrigger = true;
-//        townRig.gravityScale = 0f;
-//        townRig.isKinematic = true;
-//        newTownStructure.init(TownStructureType, this, THEPLAYER);
-//
-//        newTownStructure.name = "TownStructure " + TownStructureSet.Count;
-//        //TownStructureSet.Add(newTownStructure);
-//
+        GameObject townStructureObject = new GameObject();
+        TownStructure newTownStructure = townStructureObject.AddComponent<TownStructure>();
+        newTownStructure.transform.parent = TownStructureFolder.transform;
+        Vector3 positionOnMap = pos;
+        //		pos.z = -1;
+        newTownStructure.transform.position = positionOnMap;
+
+        BoxCollider2D townBox = townStructureObject.AddComponent<BoxCollider2D>();
+        Rigidbody2D townRig = townStructureObject.AddComponent<Rigidbody2D>();
+        print("made it this far");
+        townBox.isTrigger = true;
+        townRig.gravityScale = 0f;
+        townRig.isKinematic = true;
+        newTownStructure.init(TownStructureType, this, THEPLAYER);
+
+        newTownStructure.name = "TownStructure " + TownStructureSet.Count;
+        //TownStructureSet.Add(newTownStructure);
+
     }
 
     // We get the TownStructure from the GUI and Colliders
@@ -1513,9 +1510,19 @@ void BuyBuildingsBuffer(int x){
 			ii += "I";
 		}
 		
-		GUI.color = Color.green;
-		GUI.skin.button.alignment = TextAnchor.MiddleLeft;
-		GUI.skin.button.fontSize = 20;
+		
+		if(THETOWN.infrastructureLevel > 30){
+			GUI.color = Color.green;
+			GUI.skin.button.alignment = TextAnchor.MiddleLeft;
+			GUI.skin.button.fontSize = 20;
+		} else {
+			GUI.color = Color.red;
+			GUI.skin.button.alignment = TextAnchor.MiddleLeft;
+			GUI.skin.button.fontSize = 20;
+		}
+		
+		
+		
 		if (GUI.Button (new Rect (Screen.width - 200, Screen.height - 40, 162, 30), ii)) {
 			StartCoroutine (infraspiel() );
 		}

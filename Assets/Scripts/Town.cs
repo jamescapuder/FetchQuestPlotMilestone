@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Town : MonoBehaviour {
@@ -17,6 +17,7 @@ public class Town : MonoBehaviour {
 	public void init(GameManager m){
 		this.manager = m;
 		this.infrastructureLevel = 50;
+		StartCoroutine (infraCheck ());
 
 	}
 
@@ -26,7 +27,7 @@ public class Town : MonoBehaviour {
 
 	IEnumerator MaintenanceTimer(){
 		while (this.timer > 0) {
-			yield return new WaitForSeconds (1);
+			yield return new WaitForSeconds (2);
 			timer--;
 		}
 		manager.gameStart = false;
@@ -64,7 +65,25 @@ public class Town : MonoBehaviour {
 	}
 
 
-		
+	
+	IEnumerator infraCheck(){
+	while(true){	
+		yield return new WaitForSeconds (20);
+		int numBuidings = this.manager.TownStructureSet.Count;
+		if (numBuidings <= 0) {
+			infrastructureLevel -= 3;
+			
+		} else {
+
+
+
+			int x = ((buildingTimer / 1000) * numBuidings) % 20;
+			infrastructureLevel += (x * 10) / infrastructureLevel;
+		}
+	}
+
+
+	}
 
 
 	void infrastructureCheck(){
@@ -76,17 +95,7 @@ public class Town : MonoBehaviour {
 
 
 
-		int numBuidings = this.manager.TownStructureSet.Count;
-		if (numBuidings <= 0) {
-			infrastructureLevel -= 4;
-			return;
-		} else {
-
-
-
-			int x = ((buildingTimer / 1000) * numBuidings) % 20;
-			infrastructureLevel += (x * 10) / infrastructureLevel;
-		}
+		
 
 	}
 	
@@ -96,11 +105,12 @@ public class Town : MonoBehaviour {
 			manager.gameStart = false;
 		}
 		buildingTimer++;
-		if (buildingTimer % moder == 0) {
+
+		/*if (buildingTimer % moder == 0) {
 			//At this point, effect the infrastructure
 			infrastructureCheck();
 
-		}
+		}*/
 
 
 
